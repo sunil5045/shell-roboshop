@@ -18,5 +18,4 @@ aws ec2 run-instances \
   --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyInstance}]'
 
 echo "EC2 instance creation triggered!"
-echo "Public IP   : $PUBLIC_IP"
-echo "Private IP  : $PRIVATE_IP"
+echo "IP Adress: $IP"
