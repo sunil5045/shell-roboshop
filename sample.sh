@@ -16,6 +16,6 @@ aws ec2 run-instances \
   --security-group-ids $SECURITY_GROUP \
   --subnet-id $SUBNET_ID \
   --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyInstance}]'
+  --output text
 
-echo "EC2 instance creation triggered!"
 echo "IP Adress: $IP"
