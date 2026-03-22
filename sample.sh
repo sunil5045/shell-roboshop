@@ -15,7 +15,7 @@ aws ec2 run-instances \
   --key-name $KEY_NAME \
   --security-group-ids $SECURITY_GROUP \
   --subnet-id $SUBNET_ID \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyInstance}]'
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyInstance}]' \
   --output text
 
 echo "IP Adress: $IP"
