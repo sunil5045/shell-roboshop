@@ -1,7 +1,6 @@
-#!bin/bash
+#!/bin/bash
 
-#variables
-SG_ID="sg-028ddb0e8c0c3c494"
+SG_ID="sg-028ddb0e8c0c3c494" # replace with your ID
 AMI_ID="ami-0220d79f3f480ecf5"
 ZONE_ID="Z08342502MYJ3DHDYKBV1"
 DOMAIN_NAME="virtualmall.store"
@@ -15,6 +14,7 @@ do
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
     --query 'Instances[0].InstanceId' \
     --output text )
+
     if [ $instance == "frontend" ]; then
         IP=$(
             aws ec2 describe-instances \
@@ -22,7 +22,7 @@ do
             --query 'Reservations[].Instances[].PublicIpAddress' \
             --output text
         )
-        RECORD_NAME="$DOMAIN_NAME" # virtualmall.store
+        RECORD_NAME="$DOMAIN_NAME" # daws88s.online
     else
         IP=$(
             aws ec2 describe-instances \
@@ -30,16 +30,16 @@ do
             --query 'Reservations[].Instances[].PrivateIpAddress' \
             --output text
         )
-        RECORD_NAME="$INSTANCE.$DOMAIN_NAME" # mongodb.virtualmall.store
+        RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws88s.online
     fi
 
-    echo "IP Adress: $IP"
+    echo "IP Address: $IP"
 
     aws route53 change-resource-record-sets \
     --hosted-zone-id $ZONE_ID \
     --change-batch '
     {
-        "Comment": "Update A record",
+        "Comment": "Updating record",
         "Changes": [
             {
             "Action": "UPSERT",
@@ -58,7 +58,6 @@ do
     }
     '
 
-    echo "record update for $instance"
-    
-done
+    echo "record updated for $instance"
 
+done
