@@ -64,10 +64,15 @@ VALIDATE $? "Create system ctl service"
 
 dnf install mysql -y &>>$LOGS_FILE
 VALIDATE $? "Installing MySQL"
+mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e 'use cities'
+if [ $? -ne 0 ]; then
 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
-mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/schema.sql
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/app-user.sql 
+    mysql -h $MYSQL_HOST -uroot -pRoboShop@1 < /app/db/master-data.sql
+else
+    echo -e "data is already loaded ... $Y SKIPPING $N"
+fi
 
 systemctl enable shipping 
 systemctl start shipping
